@@ -2,9 +2,12 @@ package com.example.cwhuang.viewpager_v1;
 
 import android.app.Activity;
 
+import android.app.Dialog;
+import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -13,6 +16,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,43 +33,6 @@ public class MainActivity extends Activity {
     private View v1,v2,v3;
 
 
-    /*
-
-    //-----------------------------------------------------------------------------
-    // Here's what the app should do to add a view to the ViewPager.
-    public void addView (View newPage)
-    {
-        int pageIndex = pagerAdapter.addView (newPage);
-        // You might want to make "newPage" the currently displayed page:
-        pager.setCurrentItem (pageIndex, true);
-    }
-
-    //-----------------------------------------------------------------------------
-    // Here's what the app should do to remove a view from the ViewPager.
-    public void removeView (View defunctPage)
-    {
-        int pageIndex = pagerAdapter.removeView (pager, defunctPage);
-        // You might want to choose what page to display, if the current page was "defunctPage".
-        if (pageIndex == pagerAdapter.getCount())
-            pageIndex--;
-        pager.setCurrentItem (pageIndex);
-    }
-
-    //-----------------------------------------------------------------------------
-    // Here's what the app should do to get the currently displayed page.
-    public View getCurrentPage ()
-    {
-        return pagerAdapter.getView (pager.getCurrentItem());
-    }
-
-    //-----------------------------------------------------------------------------
-    // Here's what the app should do to set the currently displayed page.  "pageToShow" must
-    // currently be in the adapter, or this will crash.
-    public void setCurrentPage (View pageToShow)
-    {
-        pager.setCurrentItem(pagerAdapter.getItemPosition(pageToShow), true);
-    }
-    */
 
     private void create_viewpager(){
         LayoutInflater mInflater = getLayoutInflater().from(this);
@@ -91,9 +58,11 @@ public class MainActivity extends Activity {
         Log.d("Tag", "set viewpager!!!!");
 
 
+
     }
 
     private void setGestureListener(View v,String name){
+        final String na = name;
         v.setOnTouchListener(new View.OnTouchListener() {
 
             @Override
@@ -117,12 +86,43 @@ public class MainActivity extends Activity {
                                 mViewPager.removeView(v);
                                 mViewPager.setCurrentItem(mViewPager.getCurrentItem()+1);
                                 */
+                            final Toast toast = Toast.makeText(getApplicationContext(),
+                                    "U delete "+na,
+                                    Toast.LENGTH_SHORT);
+                            toast.show();
+
+                            Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    toast.cancel();
+                                }
+                            }, 500);
                                 pagerAdapter.removeView(mViewPager,v);
                                 pagerAdapter.notifyDataSetChanged();
                             Log.d(TAG, "down !! remove view!!!");
                         } else if (mCurPosY - mPosY < 0
                                 && (Math.abs(mCurPosY - mPosY) > 25)) {
                             //向上滑动
+
+                            /*Toast.makeText(
+                                    MainActivity.this,
+                                    "U like "+na,
+                                    Toast.LENGTH_SHORT)
+                                    .show();*/
+                            final Toast toast = Toast.makeText(getApplicationContext(),
+                                    "U like "+na,
+                                    Toast.LENGTH_SHORT);
+                            toast.show();
+
+                            Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    toast.cancel();
+                                }
+                            }, 500);
+
                             Log.d(TAG, "up !!u like it!!!");
 
                         }
